@@ -46,7 +46,7 @@ class CSV {
         $record[ $key ] = $value;
 
         while ( strlen( $input ) > 0 ) {
-            if ( $input[ 0 ] === ',' ) {
+            if ( @$input[ 0 ] === ',' ) {
                 $input = substr( $input, 1 );
             } else {
                 break;
@@ -80,7 +80,7 @@ class CSV {
         $length      = strlen( $input );
         $collected   = '';
         $isClassName = false;
-        if ( $input[ 0 ] === '"' ) {
+        if ( @$input[ 0 ] === '"' ) {
             $result = self::eatString( substr( $input, 1 ) );
 
             return [ $result[ 0 ], substr( $result[ 1 ], 1 ) ];
@@ -111,7 +111,7 @@ class CSV {
     protected static function eatKey( $input ) {
         $length    = strlen( $input );
         $collected = '';
-        if ( $input[ 0 ] === '"' ) {
+        if ( @$input[ 0 ] === '"' ) {
             $result = self::eatString( substr( $input, 1 ) );
 
             return [ $result[ 0 ], substr( $result[ 1 ], 1 ) ];
@@ -301,7 +301,7 @@ class CSV {
         $array   = [ ];
         $cluster = null;
         while ( strlen( $input ) ) {
-            $c = $input[ 0 ];
+            $c = @$input[ 0 ];
             if ( $c === ',' ) {
                 $input = substr( $input, 1 );
             } elseif ( $c === ']' ) {
@@ -328,7 +328,7 @@ class CSV {
         $set     = [ ];
         $cluster = null;
         while ( strlen( $input ) ) {
-            $c = $input[ 0 ];
+            $c = @$input[ 0 ];
             if ( $c === ',' ) {
                 $input = substr( $input, 1 );
             } elseif ( $c === '>' ) {
@@ -356,7 +356,7 @@ class CSV {
         $cluster = null;
         $input   = ltrim( $input, ' ' );
         while ( strlen( $input ) ) {
-            $c = $input[ 0 ];
+            $c = @$input[ 0 ];
             if ( $c === ' ' ) {
                 $input = ltrim( substr( $input, 1 ), ' ' );
                 continue;
@@ -393,7 +393,7 @@ class CSV {
         $record = [ ];
 
         $input = ltrim( $input, ' ' );
-        if ( $input[ 0 ] === ')' ) {
+        if ( @$input[ 0 ] === ')' ) {
             // this is an empty record.
             return [ $record, substr( $input, 1 ) ];
         }
@@ -403,7 +403,7 @@ class CSV {
             // this is actually a class name.
             $record[ 'oClass' ] = $chunk[ 0 ];
             $input              = ltrim( $chunk[ 1 ], ' ' );
-            if ( $input[ 0 ] === ')' ) {
+            if ( @$input[ 0 ] === ')' ) {
                 return [ $record, substr( $input, 1 ) ];
             }
             $chunk = self::eatKey( $input );
@@ -421,9 +421,9 @@ class CSV {
         $record[ $key ] = $value;
 
         while ( strlen( $input ) > 0 ) {
-            if ( $input[ 0 ] === ',' ) {
+            if ( @$input[ 0 ] === ',' ) {
                 $input = ltrim( substr( $input, 1 ), ' ' );
-            } elseif ( $input[ 0 ] === ')' ) {
+            } elseif ( @$input[ 0 ] === ')' ) {
                 $input = ltrim( substr( $input, 1 ), ' ' );
                 break;
             }
